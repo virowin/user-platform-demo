@@ -1,0 +1,10 @@
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\common\constant\UserPlatformConstant.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\otm\UserOtm.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\dao\mapper\UserMapper.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\utils\SendMailUtil.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\config\ProviderConfig.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\service\SendMailServiceImpl.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\service\UserServiceImpl.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\config\MybatisDatasourceConfig.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\dao\dataobject\UserDO.java
+D:\git\user-platform-demo\user-platform-provider\src\main\java\cn\virowin\user\platform\provider\ProviderApplication.java

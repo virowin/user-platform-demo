@@ -1,0 +1,6 @@
+cn\virowin\user\platform\facade\vo\request\MailServiceRequestVO.class
+cn\virowin\user\platform\facade\vo\request\UserInfoRequestVO.class
+cn\virowin\user\platform\facade\vo\response\UserInfoResponseVO.class
+cn\virowin\user\platform\facade\UserService.class
+cn\virowin\user\platform\facade\vo\request\UserUpdateRequestVO.class
+cn\virowin\user\platform\facade\MailService.class
