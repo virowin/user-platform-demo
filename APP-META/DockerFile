@@ -1,16 +1,34 @@
-FROM openjdk:8
-RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
-RUN sed -i 's@/archive.ubuntu.com/@/mirrors.aliyun.com/@g' /etc/apt/sources.list
-RUN apt-get update; \
-    apt-get install -y --no-install-recommends \
-        net-tools \
-    ; \
-    rm -rf /var/lib/apt/lists/*
+# FROM openjdk:8
+# RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+# RUN sed -i 's@/archive.ubuntu.com/@/mirrors.aliyun.com/@g' /etc/apt/sources.list
+# RUN apt-get update; \
+#     apt-get install -y --no-install-recommends \
+#         net-tools \
+#     ; \
+#     rm -rf /var/lib/apt/lists/*
+#
+# RUN echo "Asia/Shanghai" > /etc/timezone \
+# && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+#
+# VOLUME /tmp
+# COPY user-platform-starter-1.0.jar app.jar
+#
+# ENTRYPOINT ["java","-jar","/app.jar"]
+FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+WORKDIR /build/
 
-RUN echo "Asia/Shanghai" > /etc/timezone \
-&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+COPY pom.xml /build/
+COPY ../user-platform-consumer /build/user-platform-consumer
+COPY ../user-platform-interface /build/user-platform-interface
+COPY ../user-platform-provider /build/user-platform-provider
+COPY ../user-platform-starter /build/user-platform-starter
 
-VOLUME /tmp
-COPY user-platform-starter-1.0.jar app.jar
+RUN mvn package
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /app
+
+COPY --from=MAVEN_BUILD /build/user-platform-starter/target/user-platform-starter-1.0.jar /app/
+
+ENTRYPOINT ["java","-jar","user-platform-starter-1.0.jar"]
