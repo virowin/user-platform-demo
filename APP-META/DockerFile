@@ -1,5 +1,6 @@
 FROM openjdk:8
 RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+RUN sed -i 's@/archive.ubuntu.com/@/mirrors.aliyun.com/@g' /etc/apt/sources.list
 RUN apt-get update; \
     apt-get install -y --no-install-recommends \
         net-tools \
@@ -11,15 +12,5 @@ RUN echo "Asia/Shanghai" > /etc/timezone \
 
 VOLUME /tmp
 COPY user-platform-starter-1.0.jar app.jar
-
-RUN apt-get install -y mysql-server mysql
-
-RUN /etc/init.d/mysqld start &&\
-
-mysql -e "grant all privileges on *.* to 'virowin'@'%' identified by '123456';"&&\
-
-mysql -e "grant all privileges on *.* to 'virowin'@'localhost' identified by '123456';"&&\
-
-mysql -u virowin -p123456 -e "show databases;"
 
 ENTRYPOINT ["java","-jar","/app.jar"]
