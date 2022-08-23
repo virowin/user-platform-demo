@@ -98,7 +98,7 @@ public class UserController {
             throw new NumValidationException("`page` and `limit` need null or <= 0");
         }
         int offset = limit * (page - 1);
-        List<UserInfoResponseVO> list = userDubboService.selectUser(limit, offset);
+        List<UserInfoResponseVO> list = userDubboService.selectUser(limit, page);
         long num = userDubboService.selectUserCount();
 
         if (list == null) {

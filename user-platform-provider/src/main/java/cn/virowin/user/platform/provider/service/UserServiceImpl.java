@@ -9,6 +9,8 @@ import cn.virowin.user.platform.provider.dao.mapper.UserMapper;
 import cn.virowin.user.platform.provider.otm.UserOtm;
 import cn.virowin.user.platform.provider.utils.SendMailUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -119,8 +121,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfoResponseVO> selectUser(int limit, int offset) {
-        List<UserDO> userDO = userMapper.selectList((new QueryWrapper<UserDO>()).eq("status", 0));
-        return userOtm.userDO2UserInfoResponseVO(userDO);
+        IPage<UserDO> page = new Page<>();
+        page.setCurrent(offset);
+        page.setSize(limit);
+        IPage<UserDO> res = userMapper.selectPage(page, (new QueryWrapper<UserDO>()).eq("status", 0));
+        return userOtm.userDO2UserInfoResponseVO(res.getRecords());
     }
 
     @Override
