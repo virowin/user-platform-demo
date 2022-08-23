@@ -1,41 +1,41 @@
-# INTRODUCTION
-1. using spring boot in one single project with 4 modules.
-2. provide api to edit/read/soft delete single or multiple user(s)
-3. maven package & mysql server & java server in docker.
-4. send mail to registered user (fake, cn.virowin.user.platform.provider.service.UserServiceImpl)
-5. validation(cn.virowin.user.platform.server.vo.request.UserHttpRequestVO), handling(cn.virowin.user.platform.server.handler),testing(user-platform-starter/test)
-6. api documentation, below this.
-7. microservices(dubbo)
-8. ui (not completed, undergoing..)
+# 说明
+1. 使用springboot和4个模块.
+2. 用api提供了增删改查接口.
+3. 在docker中maven打包、mysql服务、java服务.
+4. 注册成功发邮件(因无smtp所以假实现 写在cn.virowin.user.platform.provider.service.UserServiceImpl)
+5. 验证httpget参数(cn.virowin.user.platform.server.vo.request.UserHttpRequestVO), handling(cn.virowin.user.platform.server.handler),单元测试(user-platform-starter/test)
+6. api文档，见下方.
+7. 微服务框架(dubbo)
+8. 界面 (还没完成，正在做。。)
 
-# HOW TO RUN
+# 如何运行
 
-make sure you have installed mvn & docker, and the application will bind 7333(java),3309(mysql),2181(zookeeper)
+确保已安装maven和docker，将会绑定以下端口 7333(java),3309(mysql),2181(zookeeper)
 
-##run in idea:
-(need mysql-server env local)
+##idea中运行
+(需要本地mysql服务环境)
 
-edit user-platform-starter/src/main/resources/application.yml
+修改 user-platform-starter/src/main/resources/application.yml
 
-you should only edit druid setting and change to your mysql setting.mysql init data is APP-META/init.sql.
+只需要改里面的druid配置，初始化sql在 APP-META/init.sql.
 
-(zookeeper will run by application, you can also edit dubbo-*.properties or not)
+(zookeeper会在java中运行，也可以修改dubbo-*.properties的配置链接自己的zookeeper)
 
-##run in docker:
+##在docker中运行:
 
-1. enter APP-META 
-2. sh run.sh (need java env)
+1. cd APP-META 
+2. sh run.sh
 
-##for test url:
+##用于测试的链接:
 
 localhost:7333/user/select
 
 localhost:7333/user/registor?nickname=testtest1&email=ggggg@126.com&password=333QQQ@@@
 
 
-#API DOCUMENTATION
+#API文档
 
-##basic response object
+##基础结构
 
 |key|type|desc|example|parents|
 |------|-----|-----|-------|----|
@@ -45,19 +45,19 @@ localhost:7333/user/registor?nickname=testtest1&email=ggggg@126.com&password=333
 |data|[object]|response body data|||
 
 
-## select user api
-### description
-get all user info from db by pagination
+## 查询接口
+### 说明
+获取所有的注册用户、邮箱
 ### url
 localhost:7333/user/select
-### request
+### 请求参数
 
 |param|type|desc|required|
 |---|---|----|----|
 |page|int|default: 1|not required|
 |size|init|default: 10|not required|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |data|[object]|||
@@ -66,25 +66,25 @@ localhost:7333/user/select
 |nickname|[string]| |virowin|list|
 |dateline|[datetime]| | |list|
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/select
 
 {"message":"success","status":0,"data":{"list":[{"id":57,"nickname":"asv","email":"233333@126.com","dateline":"2022-08-23T03:43:23.000+00:00"}],"count":1},"code":200}
 
 
 
-## get user api
-### description
-get one user by id
+## 获取单个用户接口
+### 说明
+根据id获取单个用户
 ### url
 localhost:7333/user/get
-### request
+### 请求参数
 
 |param|type|desc|required|
 |---|---|----|----|
 |id|long| |required|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |userInfo|[object]| | ||
@@ -92,7 +92,7 @@ localhost:7333/user/get
 |nickname|[string]| |virowin|list|
 |dateline|[datetime]| | |list|
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/get?id=57
 
 {"message":"success","status":0,"data":{"userInfo":{"id":57,"nickname":"asv","email":"233333@126.com","dateline":"2022-08-23T03:43:23.000+00:00"}},"code":200}
@@ -100,36 +100,36 @@ http://127.0.0.1:7333/user/get?id=57
 
 
 
-## register api
-### description
-register user
+## 注册用户接口
+### 说明
+用于用户注册
 ### url
 localhost:7333/user/register
-### request
+### 请求参数
 |param|type|desc|required|
 |---|---|----|----|
 |email|[string]| user email|true|
 |nickname|[string]| |true|
 |password|[string]| |true|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |id|[int]|user id | ||
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/register?id=1&email=233333@126.com&nickname=asv&password=123qqQ@
 
 {"message":"success","status":0,"data":{"id":1},"code":200}
 
 
 
-## edit user api
-### description
-edit user's nickname or password
+## 修改用户接口
+### 说明
+修改用户的用户名密码
 ### url
 localhost:7333/user/update
-### request
+### 请求参数
 
 |param|type|desc|required|
 |---|---|----|----|
@@ -138,59 +138,59 @@ localhost:7333/user/update
 |password|[string]|new pwd|true|
 |oldPassword|[string]|old pwd|true|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |status|[int]|0:ok | ||
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/update?id=1&email=233333@126.com&nickname=asv&password=123qqQ@1&oldPassword=123qqQ@
 
 {"message":"success","status":0,"data":{"status":0},"code":200}
 
 
 
-## delete user api
-### description
-soft delete user
+## 删除用户
+### 说明
+软删除用户
 ### url
 localhost:7333/user/delete
-### request
+### 请求参数
 
 |param|type|desc|required|
 |---|---|----|----|
 |id|[int]| user id|true|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |status|[int]|0:ok | ||
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/delete?id=57
 
 {"message":"success","status":0,"data":{"status":0},"code":200}
 
 
 
-## delete batch user api
-### description
+## 批量软删除用户
+### 说明
 
-soft batch delete user
+批量软删除用户
 ### url
 localhost:7333/user/batchDelete
-### request
+### 请求参数
 
 |param|type|desc|required|
 |---|---|----|----|
 |ids|[string]|id list like: 1,2,3|true|
 
-### response
+### 返回结构
 |key|type|desc|example|parents|
 |---|-----|---|----|----|
 |status|[int]|0:ok | ||
 
-### response example
+### 返回示例
 http://127.0.0.1:7333/user/batchDelete?id=57,58
 
 {"message":"success","status":0,"data":{"status":0},"code":200}

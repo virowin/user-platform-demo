@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +30,7 @@ import java.util.List;
  * @date 2022/8/20 15:37
  */
 @Controller("UserServerController")
+@CrossOrigin(origins = {"http://127.0.0.1:8081"})
 public class UserController {
     @DubboReference
     private UserService userDubboService;
